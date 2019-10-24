@@ -3,10 +3,22 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>QUIZZ EJEMPLO PHP</title>
+        <title>Proyecto Preguntados</title>
         <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+        <style>
+            
+             #pasar{
+                padding-top:30px ;
+            }
+           
+            #imgLogo{
+                padding-left:33%;
+                height:200px ;
+            }
+           
+        </style>
     </head>
-    <body>
+    <body background="fondo.jpg"  >
         <?php
             include('./funciones.php');
             $mysqli = conectaBBDD();
@@ -33,43 +45,77 @@
             $r3 = rand(3,6); while ($r3 == $r1 || $r3 == $r2){$r3 = rand(3,6);}
             $r4 = rand(3,6); while ($r4 == $r1 || $r4 == $r2 || $r4 == $r3){$r4 = rand(3,6);}
         
+            $correcta = $listaPreguntas[$preguntaElegida ][7];
 //            $numeros = range(3, 6);
 //            shuffle($numeros);
 //            foreach ($numeros as $numero) {
 //                echo "$numero ";
 //            }
 ?>
+        <img src="logo.jpg" id="imgLogo"></img>
         
-        <div class="container">
+        </br>
+        <div class="container" id="preguntas">
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <button class="btn btn-block btn-warning disabled">
+                    
+                    <button  class="btn btn-block btn-warning disabled">
                         <?php echo $listaPreguntas[$preguntaElegida][2];?>
                     </button>
                     <br><br>
-                    <button class="btn btn-block btn-primary " onclick="chequeaRespuesta();">
+                    <button id="btn1" class="btn btn-block btn-primary " onclick="chequeaRespuesta('1');">
                         <?php echo $listaPreguntas[$preguntaElegida][$r1];?>
                     </button> 
                     <br><br>
-                    <button class="btn btn-block btn-primary ">
+                    <button id="btn2" class="btn btn-block btn-primary " onclick="chequeaRespuesta('2');">
                         <?php echo $listaPreguntas[$preguntaElegida][$r2];?>
                     </button> 
                     <br><br>
-                    <button class="btn btn-block btn-primary ">
+                    <button id="btn3" class="btn btn-block btn-primary " onclick="chequeaRespuesta('3');">
                         <?php echo $listaPreguntas[$preguntaElegida][$r3];?>
                     </button> 
                     <br><br>                                                            
-                    <button class="btn btn-block btn-primary ">
+                    <button id="btn4" class="btn btn-block btn-primary  " onclick="chequeaRespuesta('4');">
                         <?php echo $listaPreguntas[$preguntaElegida][$r4];?>
                     </button> 
                 </div>
                 <div class="col-md-3"></div>
             </div>
         </div>
-        
-        
+      
+        <div align="center" id="pasar">
+            <div id="Next"></div>
+            <button type="button" class="btn btn-primary " onclick="goBack()">Back</button>
+            
+                
+   
+        </div>       
+                
         <script src="js/jquery-1.12.0.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script>
+            
+            var respuesta = '<?php echo $correcta?>';
+            
+            function refresca(){
+                location.reload();
+            }
+            
+            function chequeaRespuesta(_respuesta){
+                if(respuesta ===_respuesta){
+                    $('#Next').append('<button class ="btn btn-warning"  onclick="refresca()">Next</buton>"');
+                    
+                }
+                else{
+                    $('#Next').append('<button class ="btn btn-info" onclick="refresca()" >Next</buton>"');
+                }
+              
+            }
+            function goBack() {
+                window.history.back();
+            }
+            
+        </script>
     </body>
 </html>

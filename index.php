@@ -12,13 +12,14 @@
             }
            
             #imgLogo{
-                padding-left:33%;
+                padding-top: 50px;
+                padding-left:37%;
                 height:200px ;
             }
            
         </style>
     </head>
-    <body background="fondo.jpg"  >
+    <body background="fondo1.jpg"  >
         <?php
             include('./funciones.php');
             $mysqli = conectaBBDD();
@@ -53,14 +54,14 @@
 //            }
 ?>
         <img src="logo.jpg" id="imgLogo"></img>
-        
+        <button name="tiempo" onclick="tiempoRestante()">Tiempo</button>
         </br>
         <div class="container" id="preguntas">
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     
-                    <button  class="btn btn-block btn-warning disabled">
+                    <button   class="btn btn-block btn-warning disabled">
                         <?php echo $listaPreguntas[$preguntaElegida][2];?>
                     </button>
                     <br><br>
@@ -83,20 +84,23 @@
                 <div class="col-md-3"></div>
             </div>
         </div>
+        
+        
       
-        <div align="center" id="pasar">
-            <div id="Next"></div>
-            <button type="button" class="btn btn-primary " onclick="goBack()">Back</button>
-            
-                
-   
-        </div>       
-                
+            <div align="center" id="pasar">
+                <div id="Next"></div>
+                <a href="entrada.php">
+                    <button type="button" class="btn btn-primary " onclick="goBack()">Back</button>
+                </a>
+            </div>       
+        </a>       
         <script src="js/jquery-1.12.0.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script>
             
             var respuesta = '<?php echo $correcta?>';
+             puntos=0;
+             tiempo=30;
             
             function refresca(){
                 location.reload();
@@ -104,17 +108,39 @@
             
             function chequeaRespuesta(_respuesta){
                 if(respuesta ===_respuesta){
-                    $('#Next').append('<button class ="btn btn-warning"  onclick="refresca()">Next</buton>"');
+                   $('#Next').html('<button class="btn btn-success" onclick="refresca()">Next</buton>"');//cambia el boton de color al seleccionar la preguna correcta
+                   $('#btn1').html('Correcto');
+                    /*$('#Next').append('<button class="btn btn-success" onclick="refresca()">Next</buton>"');*/
                     
                 }
                 else{
-                    $('#Next').append('<button class ="btn btn-info" onclick="refresca()" >Next</buton>"');
+                   $('#Next').html  ('<button class="btn btn-danger" onclick="refresca()">Next</buton>"');//cambia el boton de color al seleccionar la preguna erronea
+                   $('#btn2').html('Incorrecto');
+                   $('#btn3').html('Incorrecto');
+                   $('#btn4').html('Incorrecto');
                 }
-              
+                 
             }
+            
+          
             function goBack() {
                 window.history.back();
             }
+             
+            function sumarPuntos(){
+               puntos++;
+               document.getElementById("puntos").innerHTML = "puntuacion:<b>"+ puntos + "</b>";
+               randNum = Math.round(Math.random()*500);
+               randNum2 = Math.round(Math.random()*500);
+              
+           }
+            
+            function tiempoRestante(){
+                tiempo--;
+                document.getElementById(tiempo).innerHTML = "Tiempo:"+tiempo;
+                
+            }
+            setInterval(restarTiempo,1000);
             
         </script>
     </body>
